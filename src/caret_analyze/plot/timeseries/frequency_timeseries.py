@@ -92,15 +92,17 @@ class FrequencyTimeSeries(MetricsBase):
 
         """
         min_time, max_time = self._get_timestamp_range(self._target_objects)
+
+        target_record_list: List[RecordsInterface] = [_.to_records() for _ in self._target_objects]
+        if xaxis_type == 'sim_time':
+            self._convert_timeseries_records_to_sim_time(target_record_list)
+
         timeseries_records_list: List[RecordsInterface] = []
-        for target_object in self._target_objects:
-            frequency = Frequency(target_object.to_records())
+        for target_record in target_record_list:
+            frequency = Frequency(target_record)
             timeseries_records_list.append(frequency.to_records(
                 base_timestamp=min_time, until_timestamp=max_time
             ))
-
-        if xaxis_type == 'sim_time':
-            self._convert_timeseries_records_to_sim_time(timeseries_records_list)
 
         return timeseries_records_list
 

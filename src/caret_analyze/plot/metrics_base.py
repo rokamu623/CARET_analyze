@@ -82,7 +82,7 @@ class MetricsBase(metaclass=ABCMeta):
                 for column
                 in records.columns
             ]
-            records = RecordsFactory.create_instance(values, columns)
+            records = RecordsFactory.create_instance(values, values[0].columns)
 
     # TODO: Multi-column DataFrame are difficult for users to handle,
     #       so this function is unnecessary.
